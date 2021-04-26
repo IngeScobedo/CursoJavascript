@@ -72,18 +72,18 @@ let deletePatterns = (pattern, ...texts) => {
       let newPattern = pattern.toString();
       if (typeof element === "number") {
         let newElement = element.toString();
-        let toPush = parseInt(newElement.replace(new RegExp(newPattern, "gi"), ""))
-        if(isNaN(toPush)){
-          trash.push(toPush)
-        }else{
-
+        let toPush = parseInt(
+          newElement.replace(new RegExp(newPattern, "gi"), "")
+        );
+        if (isNaN(toPush)) {
+          trash.push(toPush);
+        } else {
           results.push(toPush);
         }
       }
-      if(typeof element === 'string'){
+      if (typeof element === "string") {
         results.push(element.replace(new RegExp(newPattern, "gi"), ""));
       }
-      
     }
   });
 
@@ -94,32 +94,39 @@ let deletePatterns = (pattern, ...texts) => {
 let getRandomInt501_601 = () => Math.round(Math.random() * (600 - 501)) + 501;
 
 let getRandomInt = (min = undefined, max = undefined) => {
-  if (min === undefined || max === undefined) return console.warn('Debes Ingresar Dos Valores');
-  if (typeof min !== 'number' && typeof max !== 'number')return console.warn('Sólo Puedes Insertar Numeros');
-  
-  
-  return Math.round(Math.random() * (max - min)) + min
-}
+  if (min === undefined || max === undefined)
+    return console.warn("Debes Ingresar Dos Valores");
+  if (typeof min !== "number" && typeof max !== "number")
+    return console.warn("Sólo Puedes Insertar Numeros");
+
+  return Math.round(Math.random() * (max - min)) + min;
+};
 
 /* 10) Programa una función que reciba un número y evalúe si es capicúa o no (que se lee igual en un sentido que en otro), pe. miFuncion(2002) devolverá true. */
 
 let capicua = (number = undefined) => {
-  if (number === undefined) return console.warn('Debes Ingresar Un Número Positivo');
-  if (typeof number !== 'number') return console.warn('Sólo Puedes Ingresar Numeros');
-  if(Math.sign(number) === -1)return console.warn('Sólo Puedes Ingresar Números Positivos');
+  if (number === undefined)
+    return console.warn("Debes Ingresar Un Número Positivo");
+  if (typeof number !== "number")
+    return console.warn("Sólo Puedes Ingresar Numeros");
+  if (Math.sign(number) === -1)
+    return console.warn("Sólo Puedes Ingresar Números Positivos");
 
-  let result = number === parseInt(number.toString().split("").reverse().join(""));
+  let result =
+    number === parseInt(number.toString().split("").reverse().join(""));
   return result;
-
 };
 
 /* 11) Programa una función que calcule el factorial de un número (El factorial de un entero positivo n, se define como el producto de todos los números enteros positivos desde 1 hasta n), pe. miFuncion(5) devolverá 120. */
 
 let factorial = (number) => {
-  if (number === undefined) return console.warn('Debes Ingresar Un Número Positivo');
-  if (typeof number !== 'number') return console.error('Sólo Puedes Ingresar Numeros');
-  if(Math.sign(number) === -1)return console.error('Sólo Puedes Ingresar Números Positivos');
-  if (number === 0)return console.error('El Valor No Puede Ser Cero');
+  if (number === undefined)
+    return console.warn("Debes Ingresar Un Número Positivo");
+  if (typeof number !== "number")
+    return console.error("Sólo Puedes Ingresar Numeros");
+  if (Math.sign(number) === -1)
+    return console.error("Sólo Puedes Ingresar Números Positivos");
+  if (number === 0) return console.error("El Valor No Puede Ser Cero");
 
   let result = 1;
   for (let i = 1; i <= number; i++) {
@@ -128,45 +135,53 @@ let factorial = (number) => {
   return result;
 };
 
-
 /* 12) Programa una función que determine si un número es primo (aquel que solo es divisible por sí mismo y 1) o no, pe. miFuncion(7) devolverá true. */
 
-let impar = (number = undefined)=>{
-  if (number === undefined)return console.warn('Debes ingresar un número');
-  if (typeof number !== 'number')return console.error('Sólo Puedes Ingresar Números');
-  if (number === 0)return console.warn('No puedes ingresar el valor "0"');
-  if (number === 1)return console.warn('No puedes ingresar el valor "1"');
-  if (Math.sign(number) === -1)return console.warn('Sólo Puedes Ingresar Numeros Positivos');
+let impar = (number = undefined) => {
+  if (number === undefined) return console.warn("Debes ingresar un número");
+  if (typeof number !== "number")
+    return console.error("Sólo Puedes Ingresar Números");
+  if (number === 0) return console.warn('No puedes ingresar el valor "0"');
+  if (number === 1) return console.warn('No puedes ingresar el valor "1"');
+  if (Math.sign(number) === -1)
+    return console.warn("Sólo Puedes Ingresar Numeros Positivos");
 
   let result = number % 3 === 0 ? true : false;
   return result;
-}
+};
 
 /* 13) Programa una función que determine si un número es par o impar, pe. miFuncion(29) devolverá Impar. */
 
-let parOImpar= (number)=>{
-  if (number === undefined)return console.warn('Debes ingresar un número');
-  if (typeof number !== 'number')return console.error('Sólo Puedes Ingresar Números');
-  if (number === 0)return console.warn('No puedes ingresar el valor "0"');
-  if (Math.sign(number) === -1)return console.warn('Sólo Puedes Ingresar Numeros Positivos');
-  let result = number % 2 === 0 ? 'Par' : 'impar';
+let parOImpar = (number) => {
+  if (number === undefined) return console.warn("Debes ingresar un número");
+  if (typeof number !== "number")
+    return console.error("Sólo Puedes Ingresar Números");
+  if (number === 0) return console.warn('No puedes ingresar el valor "0"');
+  if (Math.sign(number) === -1)
+    return console.warn("Sólo Puedes Ingresar Numeros Positivos");
+  let result = number % 2 === 0 ? "Par" : "impar";
   return result;
-}
+};
 
 /* 14) Programa una función para convertir grados Celsius a Fahrenheit y viceversa, pe. miFuncion(0,"C") devolverá 32°F. */
 
-let temperatureConversor = (number = undefined,system = undefined)=>{
-  if (number === undefined) return console.error('Debes Ingresar un numero para convertir');
-  if (typeof number !== 'number') return console.error('Debes Ingresar sólo numeros');
-  if (system === undefined) return console.error('Debes Ingresar a que tipo de medida convertir;\nC: Celsius\nF: Fahrenheit');
-  if (system !== 'string') return console.error('Debes Ingresar a que tipo de medida convertir;\nC: Celsius\nF: Fahrenheit');
-let result = 0;
+let temperatureConversor = (number = undefined, system = undefined) => {
+  if (number === undefined)
+    return console.error("Debes Ingresar un numero para convertir");
+  if (typeof number !== "number")
+    return console.error("Debes Ingresar sólo numeros");
+
+  if (system === undefined)
+    return console.error(
+      "Debes Ingresar a que tipo de medida convertir;\nC: Celsius\nF: Fahrenheit"
+    );
+  let result = 0;
   system.toLowerCase();
-  if(system === 'f'){
-    result = (number * 9/5) + 32;
+  if (system === "f") {
+    result = (number * 9) / 5 + 32;
   }
-  if (system === 'c'){
+  if (system === "c") {
     result = (number - 32) / 1.8;
   }
-return result;
-}
+  return result;
+};
