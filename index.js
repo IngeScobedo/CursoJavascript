@@ -127,3 +127,46 @@ let factorial = (number) => {
   }
   return result;
 };
+
+
+/* 12) Programa una función que determine si un número es primo (aquel que solo es divisible por sí mismo y 1) o no, pe. miFuncion(7) devolverá true. */
+
+let impar = (number = undefined)=>{
+  if (number === undefined)return console.warn('Debes ingresar un número');
+  if (typeof number !== 'number')return console.error('Sólo Puedes Ingresar Números');
+  if (number === 0)return console.warn('No puedes ingresar el valor "0"');
+  if (number === 1)return console.warn('No puedes ingresar el valor "1"');
+  if (Math.sign(number) === -1)return console.warn('Sólo Puedes Ingresar Numeros Positivos');
+
+  let result = number % 3 === 0 ? true : false;
+  return result;
+}
+
+/* 13) Programa una función que determine si un número es par o impar, pe. miFuncion(29) devolverá Impar. */
+
+let parOImpar= (number)=>{
+  if (number === undefined)return console.warn('Debes ingresar un número');
+  if (typeof number !== 'number')return console.error('Sólo Puedes Ingresar Números');
+  if (number === 0)return console.warn('No puedes ingresar el valor "0"');
+  if (Math.sign(number) === -1)return console.warn('Sólo Puedes Ingresar Numeros Positivos');
+  let result = number % 2 === 0 ? 'Par' : 'impar';
+  return result;
+}
+
+/* 14) Programa una función para convertir grados Celsius a Fahrenheit y viceversa, pe. miFuncion(0,"C") devolverá 32°F. */
+
+let temperatureConversor = (number = undefined,system = undefined)=>{
+  if (number === undefined) return console.error('Debes Ingresar un numero para convertir');
+  if (typeof number !== 'number') return console.error('Debes Ingresar sólo numeros');
+  if (system === undefined) return console.error('Debes Ingresar a que tipo de medida convertir;\nC: Celsius\nF: Fahrenheit');
+  if (system !== 'string') return console.error('Debes Ingresar a que tipo de medida convertir;\nC: Celsius\nF: Fahrenheit');
+let result = 0;
+  system.toLowerCase();
+  if(system === 'f'){
+    result = (number * 9/5) + 32;
+  }
+  if (system === 'c'){
+    result = (number - 32) / 1.8;
+  }
+return result;
+}
