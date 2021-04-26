@@ -1,34 +1,39 @@
 /* 
     5) Programa una funcion que invierta las palabras de una cadena de texto, por ejemplo: miFuncion("hola mundo") //odnum aloh
 */
-let invertWords = (text = "") => text.split("").reverse().join("");
-/* console.log(invertWords("Hola Mundo")); //odnuM aloH */
+let invertWords = (text = "") => {
+  if (text === "" || text === undefined)
+    return console.warn("ingresa un texto");
+  if (typeof text === "number")
+    return console.warn("No puedes ingresar numeros");
+
+  return text.split("").reverse().join("");
+};
 /* 
     6)Programa una funcion para contar el número de veces que se repite una palabra en un texto largo, 
     por ejemplo: miFuncion("//texto a buscar", "//texto largo para buscar") // total
     miFuncion("fiesta", "Fui a una fiesta, fiesta aburrida", "fiesta" "fiesta") // 4
 */
 let findCountText = (text, ...texts) => {
+  if (text === "" || text === undefined)
+    return console.warn("ingresa un texto");
+  if (texts.length === 0) return console.warn("ingresa elementos a analizar");
+
   let i = 0,
     count = 0;
   texts.forEach((e) => {
-    i = 0;
-    while (i !== -1) {
-      i = e.indexOf(text, i);
-      if (i !== -1) {
-        i++;
-        count++;
+    if (typeof e === "string") {
+      i = 0;
+      while (i !== -1) {
+        i = e.indexOf(text, i);
+        if (i !== -1) {
+          i++;
+          count++;
+        }
       }
     }
   });
-  return console.log(`La palabra ${text} se repite ${count} veces`);
-};
-findCountText("hola", "hola mundo hola", "hola mundo hola");
-//Esta funcion busca si existe la palabra en el texto o en la serie de textos que les pases ya que tiene un parametro rest
-let isTheWord = (text, ...texts) => {
-  let count = 0;
-  texts.forEach((e) => (e.indexOf(text) >= 0 ? count++ : count));
-  return count;
+  return `La palabra ${text} se repite ${count} veces`;
 };
 /* 
 7)Programa una funcion que valide si una palabra o frase dada, es un palindromo 
@@ -36,40 +41,89 @@ let isTheWord = (text, ...texts) => {
 po. palindromo("salas"); //true
 */
 let palindromo = (text) => {
-  let textPlain = text.split("");
-  console.log(textPlain);
-  let textReverse = text.split("").reverse();
-  console.log(textReverse);
-  if (textPlain === textReverse) {
-    return "hola";
-  }
+  if (text === "" || text === undefined)
+    return console.warn("ingresa un texto");
+  if (typeof text === "number")
+    return console.warn("No puedes ingresar numeros");
+
+  let textReverse = text.split("").reverse().join("");
+  let result = text === textReverse ? true : false;
+  return result;
 };
 /* palindromo("SALAS");*/
 /*
     8) programa una funcion que elimine cierto patron de caracteres de un texto dado pe. mi funcion("xyz,xyz1,xyz2,xyz3","xyz") // "1,2,3"
 */
 let deletePatterns = (pattern, ...texts) => {
+  console.log(typeof pattern);
+  if (pattern === undefined)
+    return console.warn("ingresa caracteres a eliminar");
+  if (typeof pattern !== "string" && typeof pattern !== "number")
+    return console.warn("Sólo puedes ingresar texto y numeros");
+  if (texts.length === 0) return console.warn("ingresa elementos a analizar");
   let results = [];
-  texts.forEach((element) =>
-    results.push(element.replace(new RegExp(pattern, "gi"), ""))
-  );
-  return console.log(results.join(" - "));
+  let trash = [];
+
+  texts.forEach((element) => {
+    if (typeof pattern === "string") {
+      results.push(element.replace(new RegExp(pattern, "gi"), ""));
+    }
+    if (typeof pattern === "number") {
+      let newPattern = pattern.toString();
+      if (typeof element === "number") {
+        let newElement = element.toString();
+        let toPush = parseInt(newElement.replace(new RegExp(newPattern, "gi"), ""))
+        if(isNaN(toPush)){
+          trash.push(toPush)
+        }else{
+
+          results.push(toPush);
+        }
+      }
+      if(typeof element === 'string'){
+        results.push(element.replace(new RegExp(newPattern, "gi"), ""));
+      }
+      
+    }
+  });
+
+  return results;
 };
 
 /* 9) Programa una función que obtenga un numero aleatorio entre 501 y 600. */
-let  getRandomInt501_601 = () => Math.round(Math.random() * (600 - 501)) + 501;
+let getRandomInt501_601 = () => Math.round(Math.random() * (600 - 501)) + 501;
 
-let getRandomInt = (min, max) => Math.round(Math.random() * (max - min)) + min;
+let getRandomInt = (min = undefined, max = undefined) => {
+  if (min === undefined || max === undefined) return console.warn('Debes Ingresar Dos Valores');
+  if (typeof min !== 'number' && typeof max !== 'number')return console.warn('Sólo Puedes Insertar Numeros');
+  
+  
+  return Math.round(Math.random() * (max - min)) + min
+}
 
 /* 10) Programa una función que reciba un número y evalúe si es capicúa o no (que se lee igual en un sentido que en otro), pe. miFuncion(2002) devolverá true. */
 
-let capicua = number => {
-  let array = [];
-  array.push(number);
-  let reverseR = parseInt(number.toString().split("").reverse().join(""));
-  array.push(reverseR);
-  let [one,two] = array;
-  return one === two ? true : false;
+let capicua = (number = undefined) => {
+  if (number === undefined) return console.warn('Debes Ingresar Un Número Positivo');
+  if (typeof number !== 'number') return console.warn('Sólo Puedes Ingresar Numeros');
+  if(Math.sign(number) === -1)return console.warn('Sólo Puedes Ingresar Números Positivos');
+
+  let result = number === parseInt(number.toString().split("").reverse().join(""));
+  return result;
+
 };
 
 /* 11) Programa una función que calcule el factorial de un número (El factorial de un entero positivo n, se define como el producto de todos los números enteros positivos desde 1 hasta n), pe. miFuncion(5) devolverá 120. */
+
+let factorial = (number) => {
+  if (number === undefined) return console.warn('Debes Ingresar Un Número Positivo');
+  if (typeof number !== 'number') return console.error('Sólo Puedes Ingresar Numeros');
+  if(Math.sign(number) === -1)return console.error('Sólo Puedes Ingresar Números Positivos');
+  if (number === 0)return console.error('El Valor No Puede Ser Cero');
+
+  let result = 1;
+  for (let i = 1; i <= number; i++) {
+    result *= i;
+  }
+  return result;
+};
