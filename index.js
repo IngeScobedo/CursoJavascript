@@ -18,9 +18,8 @@ let findCountText = (text, ...texts) => {
   if (text === "" || text === undefined)
     return console.warn("ingresa un texto");
   if (texts.length === 0) return console.warn("ingresa elementos a analizar");
-
-  let i = 0,
-    count = 0;
+  let i = 0;
+  let count = 0;
   texts.forEach((e) => {
     if (typeof e === "string") {
       i = 0;
@@ -166,22 +165,54 @@ let parOImpar = (number) => {
 /* 14) Programa una función para convertir grados Celsius a Fahrenheit y viceversa, pe. miFuncion(0,"C") devolverá 32°F. */
 
 let temperatureConversor = (number = undefined, system = undefined) => {
-  if (number === undefined)
+  if (number === undefined) {
     return console.error("Debes Ingresar un numero para convertir");
-  if (typeof number !== "number")
+  }
+  if (typeof number !== "number") {
     return console.error("Debes Ingresar sólo numeros");
+  }
 
-  if (system === undefined)
+  if (system === undefined) {
     return console.error(
-      "Debes Ingresar a que tipo de medida convertir;\nC: Celsius\nF: Fahrenheit"
+      "Debes Ingresar a que tipo de medida convertir;\n'C': Celsius\n'F': Fahrenheit"
     );
+  }
+  if (typeof system !== "string") {
+    return console.error(
+      "Debes Ingresar a que tipo de medida convertir en string...\n'C': Celsius\n'F': Fahrenheit"
+    );
+  }
+  system = system.toUpperCase();
   let result = 0;
-  system.toLowerCase();
-  if (system === "f") {
-    result = (number * 9) / 5 + 32;
-  }
-  if (system === "c") {
+  if (system === "F") {
+    result = number * 1.8 + 32;
+    return `${result}°${system}`;
+  } else if (system === "C") {
     result = (number - 32) / 1.8;
+    return `${result}°${system}`;
+  } else {
+    console.error("Valor de unidad no reconocido");
   }
+};
+
+/* 15) Programa una función para convertir números de base binaria a decimal y viceversa, pe. miFuncion(100,2) devolverá 4 base 10. */
+
+/* 16) Programa una función que devuelva el monto final después de aplicar un descuento a una cantidad dada, pe. miFuncion(1000, 20) devolverá 800. */
+let discount = (total = undefined, percentage = undefined) => {
+  if (typeof total !== 'number' && typeof percentage !== 'number'){
+    return console.warn('Solo Puedes Ingresar numeros');
+  }
+  if (total === undefined) {
+    return console.error("Debes ingresar cantidad para el descuento");
+  }
+  if (percentage === undefined) {
+    return console.error("Debes ingresar porcentaje a descontar");
+  }
+
+
+  let rest = (total / 100) * percentage;
+  let result = total - rest;
   return result;
 };
+
+/* 17) Programa una función que dada una fecha válida determine cuantos años han pasado hasta el día de hoy, pe. miFuncion(new Date(1984,4,23)) devolverá 35 años (en 2020). */
