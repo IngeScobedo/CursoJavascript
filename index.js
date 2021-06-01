@@ -582,5 +582,5 @@ let movie = new Movie({
   title: 'Rick And Morty (TV Series)',
   directors: ['Dan Harmon','Justin Roiland'],
   premiere: 2013,
-  countries: ["USA"]
+  countries: ["United States"]
 });
