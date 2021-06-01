@@ -353,18 +353,234 @@ let oddAndEven = (array = []) => {
 /* 24) Programa una función que dado un arreglo de números devuelva un objeto con dos arreglos, el primero tendrá los numeros ordenados en forma ascendente y el segundo de forma descendiente, pe. miFuncion([7, 5,7,8,6]) devolverá { asc: [5,6,7,7,8], desc: [8,7,7,6,5] }. */
 
 let ascendingAndDescending = (array = []) => {
-  let ascending, descending;
+  let ascending = [],
+    descending = [];
 
-  ascending = array.sort((a, b) => a - b);
-  console.log(ascending);
-  descending = array.sort((a, b) => a + b);
-    console.log(descending.reverse());
+  ascending = array.sort();
+  descending = array.sort().reverse();
   return {
-      ascending,
-      descending
-  }
+    ascending,
+    descending,
+  };
 };
+
+/* ############################# PRACTICA DE MAP, FILTER Y REDUCE ############################# */
+
+/* ############################# PRACTICA DE MAP, FILTER Y REDUCE ############################# */
 
 /* 25) Programa una función que dado un arreglo de elementos, elimine los duplicados, pe. miFuncion(["x", 10, "x", 2, "10", 10, true, true]) devolverá ["x", 10, 2, "10", true]. */
 
+let numbersDuplicate = [
+    1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 7, 7, 7, 7,
+    7, 7, 7, 8, 8, 8, 8, 8, 8, 8, 8,
+  ],
+  dup = ["x", "y", "x", "z", "y", 1, 2, 1, 2, 3, 3, 2, 3];
+
+let deleteDuplicates = (array = []) => {
+  let duplicates = array.filter((element, position, object) => {
+    return position === object.indexOf(element);
+  });
+
+  return duplicates;
+};
+
 /* 26) Programa una función que dado un arreglo de números obtenga el promedio, pe. promedio([9,8,7,6,5,4,3,2,1,0]) devolverá 4.5. */
+
+let califications = [9, 8, 7, 6, 5, 4, 3, 2, 1, 0];
+
+let average = (array = []) => {
+  let sum = 0;
+
+  array.forEach((e) => (sum += e));
+
+  return sum / array.length;
+};
+
+/* 
+27) Programa una clase llamada Pelicula.
+
+La clase recibirá un objeto al momento de instanciarse con los siguentes datos: id de la película en IMDB, titulo, director, año de estreno, país o países de origen, géneros y calificación en IMBD.
+  - Todos los datos del objeto son obligatorios.
+  - Valida que el id IMDB tenga 9 caracteres, los primeros 2 sean letras y los 
+                7 restantes números.
+              - Valida que el título no rebase los 100 caracteres.
+              - Valida que el director no rebase los 50 caracteres.
+              - Valida que el año de estreno sea un número entero de 4 dígitos.
+              - Valida que el país o paises sea introducidos en forma de arreglo.
+              - Valida que los géneros sean introducidos en forma de arreglo.
+              - Valida que los géneros introducidos esten dentro de los géneros 
+                aceptados*.
+              - Crea un método estático que devuelva los géneros aceptados*.
+              - Valida que la calificación sea un número entre 0 y 10 pudiendo ser 
+                decimal de una posición.
+              - Crea un método que devuelva toda la ficha técnica de la película.
+              - Apartir de un arreglo con la información de 3 películas genera 3 
+                instancias de la clase de forma automatizada e imprime la ficha técnica 
+                de cada película.
+
+* Géneros Aceptados: Action, Adult, Adventure, Animation, Biography, Comedy, Crime, Documentary ,Drama, Family, Fantasy, Film Noir, Game-Show, History, Horror, Musical, Music, Mystery, News, Reality-TV, Romance, Sci-Fi, Short, Sport, Talk-Show, Thriller, War, Western.
+
+*/
+const ACCEPTED_GENDERS = [
+  "Action",
+  "Adult",
+  "Adventure",
+  "Animation",
+  "Biography",
+  "Comedy",
+  "Crime",
+  "Documentary",
+  "Drama",
+  "Family",
+  "Fantasy",
+  "Film Noir",
+  "Game-Show",
+  "History",
+  "Horror",
+  "Musical",
+  "Music",
+  "Mystery",
+  "News",
+  "Reality-TV",
+  "Romance",
+  "Sci-Fi",
+  "Short",
+  "Sport",
+  "Talk-Show",
+  "Thriller",
+  "War",
+  "Western",
+];
+
+
+class Movie {
+  constructor({
+    movieId,
+    title,
+    directors,
+    premiere,
+    countries,
+    gender,
+    calification,
+  }) {
+    this.movieId = movieId;
+    this.title = title;
+    this.directors = directors;
+    this.premiere = premiere;
+    this.countries = countries;
+    this.gender = gender;
+    this.calification = calification;
+
+    this.imdbValidations(movieId);
+    this.titleValidations(title);
+    this.directorValidations(directors);
+    this.premiereValidations(premiere);
+    this.countriesValidations(countries);
+  }
+
+  static get listOfAcceptedGenders(){
+    return [
+      "Action",
+      "Adult",
+      "Adventure",
+      "Animation",
+      "Biography",
+      "Comedy",
+      "Crime",
+      "Documentary",
+      "Drama",
+      "Family",
+      "Fantasy",
+      "Film Noir",
+      "Game-Show",
+      "History",
+      "Horror",
+      "Musical",
+      "Music",
+      "Mystery",
+      "News",
+      "Reality-TV",
+      "Romance",
+      "Sci-Fi",
+      "Short",
+      "Sport",
+      "Talk-Show",
+      "Thriller",
+      "War",
+      "Western",
+    ];
+  }
+  static acceptedGenders (){
+    return console.info(`The accepted genres are: ${Movie.listOfAcceptedGenders.join(', ')}`)
+  }
+
+  stringValidators(property, value) {
+    if (!value) return console.warn(`${property} "${value} is empty"`);
+    if (typeof value !== "string")
+      return console.warn(`${property} "${value}" is not a string`);
+    return true;
+  }
+
+  stringLenghtValidators(property, value, lenght) {
+    if (value.length > lenght)
+      return console.error(`${property} "${value} is longer than ${lenght}"`);
+    return true;
+  }
+  yearValidators(property, year) {
+    if(!year) return console.error(`${property} "${property}" empty`);
+    if(typeof year !== "number") return console.error(`${property} "${year}" is not a valid year`)
+    return true;
+  }
+  arrayValidators(property,array) {
+    if(!array) return console.warn(`${property} "${array}" is empty`);
+    if(!(array instanceof Array))return console.error(`${property} "${array}" is not an array"`) 
+    if(array.length === 0) return console.warn(`$property "${array} is empty"`)
+    for(let string of array) {
+      if(typeof string !== "string")return console.error(`Value ${string} is not a string`)
+    }
+    return true;
+  }
+  gendersValidators(){
+
+  }
+
+
+
+
+
+  imdbValidations(imdbId) {
+    if (this.stringValidators("IMDB ID", imdbId)) {
+      if (!/^([a-z]{2}([0-9]{7}))$/.test(imdbId)) {
+        return console.error(
+          `IMDB ID "${imdbId}" is invalid It must have 9 characters, the first 2 digits letters and the remaining 7 numbers.`
+        );
+      }
+    }
+  }
+  
+  titleValidations(title) {
+    if (this.stringValidators("title", title))
+      this.stringLenghtValidators("title", title, 100);
+  }
+  directorValidations(directors) {
+    this.arrayValidators("directors", directors)
+  }
+  premiereValidations(premiere){
+    if(this.yearValidators("premiere", premiere))
+      if(!(/^([0-9]){4}$/.test(premiere))) return console.error(`Premiere invalid`)
+  }
+  countriesValidations(countries) {
+    this.arrayValidators("countries", countries);
+  }
+  gendersValidations(genders) {
+
+  }
+}
+
+let movie = new Movie({
+  movieId: "tt2861424",
+  title: 'Rick And Morty (TV Series)',
+  directors: ['Dan Harmon','Justin Roiland'],
+  premiere: 2013,
+  countries: ["USA"]
+});
