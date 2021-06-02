@@ -402,15 +402,15 @@ let average = (array = []) => {
 La clase recibirá un objeto al momento de instanciarse con los siguentes datos: id de la película en IMDB, titulo, director, año de estreno, país o países de origen, géneros y calificación en IMBD.
   - Todos los datos del objeto son obligatorios.
   - Valida que el id IMDB tenga 9 caracteres, los primeros 2 sean letras y los 
-                7 restantes números.
-              - Valida que el título no rebase los 100 caracteres.
-              - Valida que el director no rebase los 50 caracteres.
-              - Valida que el año de estreno sea un número entero de 4 dígitos.
-              - Valida que el país o paises sea introducidos en forma de arreglo.
-              - Valida que los géneros sean introducidos en forma de arreglo.
-              - Valida que los géneros introducidos esten dentro de los géneros 
-                aceptados*.
-              - Crea un método estático que devuelva los géneros aceptados*.
+    7 restantes números.
+  - Valida que el título no rebase los 100 caracteres.
+  - Valida que el director no rebase los 50 caracteres.
+  - Valida que el año de estreno sea un número entero de 4 dígitos.
+  - Valida que el país o paises sea introducidos en forma de arreglo.
+  - Valida que los géneros sean introducidos en forma de arreglo.
+  - Valida que los géneros introducidos esten dentro de los géneros 
+    aceptados*.
+  - Crea un método estático que devuelva los géneros aceptados*.
               - Valida que la calificación sea un número entre 0 y 10 pudiendo ser 
                 decimal de una posición.
               - Crea un método que devuelva toda la ficha técnica de la película.
@@ -452,7 +452,6 @@ const ACCEPTED_GENDERS = [
   "Western",
 ];
 
-
 class Movie {
   constructor({
     movieId,
@@ -460,7 +459,7 @@ class Movie {
     directors,
     premiere,
     countries,
-    gender,
+    genders,
     calification,
   }) {
     this.movieId = movieId;
@@ -468,7 +467,7 @@ class Movie {
     this.directors = directors;
     this.premiere = premiere;
     this.countries = countries;
-    this.gender = gender;
+    this.genders = genders;
     this.calification = calification;
 
     this.imdbValidations(movieId);
@@ -476,9 +475,12 @@ class Movie {
     this.directorValidations(directors);
     this.premiereValidations(premiere);
     this.countriesValidations(countries);
+    this.gendersValidations(genders);
+    this.calificationValidations(calification);
+    this.printDataSheet();
   }
 
-  static get listOfAcceptedGenders(){
+  static get listOfAcceptedGenders() {
     return [
       "Action",
       "Adult",
@@ -510,8 +512,10 @@ class Movie {
       "Western",
     ];
   }
-  static acceptedGenders (){
-    return console.info(`The accepted genres are: ${Movie.listOfAcceptedGenders.join(', ')}`)
+  static acceptedGenders() {
+    return console.info(
+      `The accepted genres are: ${Movie.listOfAcceptedGenders.join(", ")}`
+    );
   }
 
   stringValidators(property, value) {
@@ -526,27 +530,25 @@ class Movie {
       return console.error(`${property} "${value} is longer than ${lenght}"`);
     return true;
   }
-  yearValidators(property, year) {
-    if(!year) return console.error(`${property} "${property}" empty`);
-    if(typeof year !== "number") return console.error(`${property} "${year}" is not a valid year`)
+  numberValidators(property, number) {
+    if (!number) return console.error(`${property} "${number}" is empty`);
+    if (typeof number !== "number")
+      return console.error(`${property} "${number}" is not a number`);
     return true;
   }
-  arrayValidators(property,array) {
-    if(!array) return console.warn(`${property} "${array}" is empty`);
-    if(!(array instanceof Array))return console.error(`${property} "${array}" is not an array"`) 
-    if(array.length === 0) return console.warn(`$property "${array} is empty"`)
-    for(let string of array) {
-      if(typeof string !== "string")return console.error(`Value ${string} is not a string`)
+
+  arrayValidators(property, array) {
+    if (!array) return console.warn(`${property} "${array}" is empty`);
+    if (!(array instanceof Array))
+      return console.error(`${property} "${array}" is not an array"`);
+    if (array.length === 0)
+      return console.warn(`$property "${array} is empty"`);
+    for (let string of array) {
+      if (typeof string !== "string")
+        return console.error(`Value ${string} is not a string`);
     }
     return true;
   }
-  gendersValidators(){
-
-  }
-
-
-
-
 
   imdbValidations(imdbId) {
     if (this.stringValidators("IMDB ID", imdbId)) {
@@ -557,30 +559,132 @@ class Movie {
       }
     }
   }
-  
+
   titleValidations(title) {
     if (this.stringValidators("title", title))
       this.stringLenghtValidators("title", title, 100);
   }
   directorValidations(directors) {
-    this.arrayValidators("directors", directors)
+    this.arrayValidators("directors", directors);
   }
-  premiereValidations(premiere){
-    if(this.yearValidators("premiere", premiere))
-      if(!(/^([0-9]){4}$/.test(premiere))) return console.error(`Premiere invalid`)
+  premiereValidations(premiere) {
+    if (this.numberValidators("premiere", premiere))
+      if (!/^([0-9]){4}$/.test(premiere))
+        return console.error(`Premiere invalid`);
   }
   countriesValidations(countries) {
     this.arrayValidators("countries", countries);
   }
   gendersValidations(genders) {
+    if (this.arrayValidators("genders", genders)) {
+      for (let gender of genders) {
+        let withUpperCase = gender[0].toUpperCase();
+        withUpperCase += gender.slice(1);
 
+        if (!Movie.listOfAcceptedGenders.includes(withUpperCase)) {
+          console.error(`"${gender}" is not a permitted gender`);
+          Movie.acceptedGenders();
+        }
+      }
+    }
+  }
+  calificationValidations(calification) {
+    if (this.numberValidators("calification", calification))
+      return calification < 0 || calification > 10
+        ? console.error(`The rating range must be between 0 and 10`)
+        : (this.calification = calification.toFixed(1));
+  }
+  printDataSheet() {
+    console.info(
+      `Data sheet: \nTitle: "${this.title}"\nDirector: "${this.directors}"\nPremiere: "${this.premiere}"\nCountries: "${this.countries}"\nGenders: "${this.genders}"\nCalification: "${this.calification}"\nIMDB ID: "${this.movieId}"`
+    );
   }
 }
-
+/* 
 let movie = new Movie({
   movieId: "tt2861424",
   title: 'Rick And Morty (TV Series)',
   directors: ['Dan Harmon','Justin Roiland'],
   premiere: 2013,
-  countries: ["United States"]
+  countries: ["United States"],
+  genders: ['comedy',"adult"],
+  calification: 9.8977
 });
+*/
+
+const HARRY_POTTER_SAGA = [
+  {
+    movieId: "tt0241527",
+    title: "Harry potter and the Philosopher's Stone",
+    directors: ["Chris Columbus"],
+    premiere: 2001,
+    countries: ["United Kingdom"],
+    genders: ["fantasy"],
+    calification: 7.6,
+  },
+  {
+    movieId: "tt0295297",
+    title: "Harry Potter and the Chamber of Secrets",
+    directors: ["Chris Columbus"],
+    premiere: 2002,
+    countries: ["United Kingdom"],
+    genders: ["fantasy"],
+    calification: 7.4,
+  },
+  {
+    movieId: "tt0304141",
+    title: "Harry Potter and the Prisoner of Azkaban",
+    directors: ["Alfonso Cuarón"],
+    premiere: 2004,
+    countries: ["United Kingdom"],
+    genders: ["fantasy"],
+    calification: 7.9,
+  },
+  {
+    movieId: "tt0330373",
+    title: "Harry Potter and the Goblet of Fire",
+    directors: ["Mike Newell"],
+    premiere: 2005,
+    countries: ["United Kingdom"],
+    genders: ["fantasy"],
+    calification: 7.7,
+  },
+  {
+    movieId: "tt0373889",
+    title: "Harry Potter and the Order of the Phoenix",
+    directors: ["David Yates"],
+    premiere: 2007,
+    countries: ["United Kingdom"],
+    genders: ["fantasy"],
+    calification: 7.5,
+  },
+  {
+    movieId: "tt0417741",
+    title: "Harry Potter and the Half-Blood Prince",
+    directors: ["David Yates"],
+    premiere: 2009,
+    countries: ["United Kingdom"],
+    genders: ["fantasy"],
+    calification: 7.6,
+  },
+  {
+    movieId: "tt0926084",
+    title: "Harry Potter and the Deathly Hallows: Part 1",
+    directors: ["David Yates"],
+    premiere: 2010,
+    countries: ["United Kingdom"],
+    genders: ["fantasy"],
+    calification: 7.7,
+  },
+  {
+    movieId: "tt1201607",
+    title: "Harry Potter and the Deathly Hallows: Part 2",
+    directors: ['David Yates'],
+    premiere: 2011,
+    countries: ["United Kingdom"],
+    genders: ["fantasy"],
+    calification: 8.1,
+  }
+];
+
+HARRY_POTTER_SAGA.forEach(movie => new Movie(movie).printDataSheet())
